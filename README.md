@@ -14,3 +14,5 @@ Mixing Batch and Assembly with a few Python things together into a single progra
 - Printing (so I can Hello, World!)
 - Running commands in the default shell
 - Opening links easily
+
+## For examples see [the examples folder](/examples).
