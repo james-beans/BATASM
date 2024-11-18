@@ -1,0 +1,29 @@
+// testing.batasm
+
+&{$S=BATASM}
+
+// Comments are ignored
+START ({
+
+    PRINT "new-line:\nThis is a new line."
+
+    PRINT "tab seperated line:\nTab\tseparated\ttext."
+
+    PRINT "This is a test with double quotes."
+    PRINT 'This is a test with single quotes.'
+    PRINT `This is a test with backticks.`
+    PRINT "\nThis is a test with new-line characters."
+    PRINT `hello`
+
+    PRINT "Running command "echo \"hello from batasm\"" inside with 2 sets of brackets lol:"
+    RUN "echo \"hello from batasm\""
+
+    PRINT "Opening link "youtube.com" inside default browser on machine"
+    // OPEN "https://youtube.com"
+
+    EXIT "silent"
+
+    PRINT "Opening steam"
+    // OPEN "steam://openurl/https://store.steampowered.com"
+
+})
