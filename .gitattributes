@@ -1,4 +1,4 @@
 # make the languages detectable
 *.md linguist-detectable
 *.cpp linguist-detectable
-*.batasm lingusit-detectable
+*.batasm linguist-detectable
