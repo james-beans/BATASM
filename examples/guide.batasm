@@ -1,0 +1,62 @@
+// guide.batasm
+
+// WARNING!
+// This file is a guide/what I want to do with this in the future.
+// Some features might not work as expected.
+// This file MIGHT WILL NOT WORK WHEN RAN.
+
+// this line does the same as 
+// <!DOCTYPE html> in html
+//
+// defines the use of batasm format
+// and checks if ran in a .batasm file
+&{$S=BATASM}
+
+// comments are always after
+// two forward slashes and one space
+// then the text of the actual comment
+//
+// comments will not work when normal code
+// is before a comment on the same line
+
+// all code apart from the sourcing and commments have
+// to be in the START function.
+START ({
+
+    // print does what you think it does,
+    // prints to the console/terminal
+    //
+    // you can print text using double quotes "" but
+    // you can also print using `` backticks and
+    // single quotes ''
+    PRINT "hello"
+
+    // the PRINT command automatically makes a new line
+    // when calling
+    // but it also allows the use of \n and \t
+    //
+    // \n makes a new line
+    // \t prints a tab
+    PRINT "new-line:\nThis is a new line."
+    PRINT "tab seperated line:\nTab\tseparated\ttext."
+
+    // you can run commands in the defualt terminal
+    // on your machine using the RUN command
+    RUN "echo \"hello from batasm\""
+
+    // you can open links using the OPEN command
+    // in your default browser or way to open a link
+    OPEN "https://youtube.com"
+
+    // you can close the program immedeatly using the EXIT command
+    // the EXIT command supports params like "silent"
+    //
+    // the "silent" param makes it so that when the program stops it
+    // doesn't print 'Program terminated by EXIT command.'
+    //
+    // normal exiting
+    EXIT
+    // silent param exiting
+    EXIT "silent"
+
+})
