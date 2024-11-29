@@ -7,12 +7,13 @@ START ({
 
     PRINT "new-line:\nThis is a new line."
 
-    PRINT "tab seperated line:\nTab\tseparated\ttext."
+    PRINT "tab seperated line:"
+    PRINT "Tab   separated   text"
 
     PRINT "This is a test with double quotes."
     PRINT 'This is a test with single quotes.'
     PRINT `This is a test with backticks.`
-    PRINT "\nThis is a test with new-line characters."
+    PRINT "This is a test with new-line characters."
     PRINT `hello`
 
     PRINT "Running command "echo \"hello from batasm\"" inside with 2 sets of brackets lol:"
