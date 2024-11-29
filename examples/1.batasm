@@ -5,7 +5,8 @@
 // Comments are ignored
 START ({
 
-    PRINT "new-line:\nThis is a new line."
+    PRINT "new-line:"
+    PRINT "This is a new line."
 
     PRINT "tab seperated line:"
     PRINT "Tab   separated   text"

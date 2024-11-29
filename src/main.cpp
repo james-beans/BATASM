@@ -79,6 +79,22 @@ void executeOpen(const std::string& url) {
     }
 }
 
+// interpreter for commands only.
+void interpretCommand(const std::string& command, std::unordered_map<std::string, std::string>& globalVariables) {
+    if (command.substr(0, 5) == "PRINT") {
+        std::string content = trim(command.substr(5));
+        if (!content.empty() && (content.front() == '\'' || content.front() == '"' || content.front() == '`')) {
+            content = content.substr(1, content.size() - 2);
+        }
+        executePrint(content, globalVariables);
+    } else if (command.substr(0, 3) == "RUN") {
+        std::string content = trim(command.substr(4));
+        executeRun(content);
+    } else {
+        std::cerr << "Error: Unsupported command: " << command << std::endl;
+    }
+}
+
 // Interpreter for BATASM
 void interpretBATASM(const std::string& scriptPath) {
     std::ifstream scriptFile(scriptPath);
@@ -160,13 +176,29 @@ void interpretBATASM(const std::string& scriptPath) {
 }
 
 int main(int argc, char* argv[]) {
-    if (argc != 2) {
-        std::cerr << "Usage: batasm_interpreter <script.batasm>" << std::endl;
+        std::cerr << "BATASM v4.8.9" << std::endl;
+        std::cerr << "BATASM Usage:" << std::endl;
+        std::cerr << "============" << std::endl;
+        std::cerr << "Interpret script - batasm <script.batasm>" << std::endl;
+        std::cerr << "Run command only - batasm -C \"<command>\"" << std::endl;
+        std::cerr << "============" << std::endl;
+
         return 1;
     }
 
-    std::string scriptPath = argv[1];
-    interpretBATASM(scriptPath);
+    std::unordered_map<std::string, std::string> globalVariables;
+
+    if (std::string(argv[1]) == "-C") {
+        if (argc != 3) {
+            std::cerr << "Error: Missing command after -C flag." << std::endl;
+            return 1;
+        }
+        std::string command = argv[2];
+        interpretCommand(command, globalVariables); // Execute single command
+    } else {
+        std::string scriptPath = argv[1];
+        interpretBATASM(scriptPath); // Execute script file
+    }
 
     return 0;
 }
