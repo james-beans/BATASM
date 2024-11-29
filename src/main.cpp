@@ -1,3 +1,7 @@
+// BATASM CLI v4.9.3
+// src/main.cpp
+
+// Default libs only 
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -79,8 +83,7 @@ void executeOpen(const std::string& url) {
     }
 }
 
-// interpreter for commands only.
-void interpretCommand(const std::string& command, std::unordered_map<std::string, std::string>& globalVariables) {
+void executeCommand(const std::string& command, std::unordered_map<std::string, std::string>& globalVariables) {
     if (command.substr(0, 5) == "PRINT") {
         std::string content = trim(command.substr(5));
         if (!content.empty() && (content.front() == '\'' || content.front() == '"' || content.front() == '`')) {
@@ -90,9 +93,37 @@ void interpretCommand(const std::string& command, std::unordered_map<std::string
     } else if (command.substr(0, 3) == "RUN") {
         std::string content = trim(command.substr(4));
         executeRun(content);
+    } else if (command.substr(0, 4) == "EXIT") {
+        // Check if "EXIT" command includes the "silent" parameter
+        if (command.find("silent") != std::string::npos) {
+            // Silent exit - do not print anything
+            exit(0);
+        } else {
+            std::cout << "Program terminated by EXIT command." << std::endl;
+            exit(0);
+        }
+    } else if (command.substr(0, 5) == "GVAR ") {
+        size_t eqPos = command.find("==");
+        if (eqPos != std::string::npos) {
+            std::string varName = trim(command.substr(5, eqPos - 5));
+            std::string varValue = trim(command.substr(eqPos + 2));
+            if (varValue.size() > 1 &&
+                (varValue.front() == '\'' || varValue.front() == '"') &&
+                varValue.front() == varValue.back()) {
+                varValue = varValue.substr(1, varValue.size() - 2);
+            }
+            globalVariables[varName] = varValue;
+        } else {
+            std::cerr << "Error: Invalid GVAR declaration." << std::endl;
+        }
     } else {
-        std::cerr << "Error: Unsupported command: " << command << std::endl;
+        std::cerr << "Error: Unsupported or unknown command: " << command << std::endl;
     }
+}
+
+// interpreter for commands only.
+void interpretCommand(const std::string& command, std::unordered_map<std::string, std::string>& globalVariables) {
+    executeCommand(command, globalVariables);
 }
 
 // Interpreter for BATASM
@@ -130,46 +161,13 @@ void interpretBATASM(const std::string& scriptPath) {
         }
 
         if (inStartFunction) {
-            if (line.substr(0, 4) == "EXIT") {
-                // Check if "EXIT" command includes the "silent" parameter
-                size_t paramPos = line.find("silent");
-                if (paramPos != std::string::npos) {
-                    // Silent exit - do not print anything
-                    break;
-                } else {
-                    // Default exit with message
-                    std::cout << "Program terminated by EXIT command." << std::endl;
-                    break; // Stops the interpreter
-                }
-            } else if (line == "})") {
+            if (line == "})") {
                 inStartFunction = false;
-            } else if (line.substr(0, 5) == "GVAR ") {
-                size_t eqPos = line.find("==");
-                if (eqPos != std::string::npos) {
-                    std::string varName = trim(line.substr(5, eqPos - 5));
-                    std::string varValue = trim(line.substr(eqPos + 2));
-                    if (varValue.size() > 1 && 
-                        (varValue.front() == '\'' || varValue.front() == '"') && 
-                        varValue.front() == varValue.back()) {
-                        varValue = varValue.substr(1, varValue.size() - 2);
-                    }
-                    globalVariables[varName] = varValue;
-                } else {
-                    std::cerr << "Error: Invalid GVAR declaration." << std::endl;
-                }
-            } else if (line.substr(0, 5) == "PRINT") {
-                std::string content = trim(line.substr(5));
-                if (!content.empty() && (content.front() == '\'' || content.front() == '"' || content.front() == '`')) {
-                    content = content.substr(1, content.size() - 2);
-                }
-                executePrint(content, globalVariables);
-            } else if (line.substr(0, 3) == "RUN") {
-                std::string content = trim(line.substr(4));
-                executeRun(content);
             } else {
-                std::cerr << "Error: Unknown or unsupported command in START block: " << line << std::endl;
+                executeCommand(line, globalVariables);
             }
         }
+
     }
 
     scriptFile.close();
@@ -177,7 +175,7 @@ void interpretBATASM(const std::string& scriptPath) {
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        std::cerr << "BATASM v4.8.9" << std::endl;
+        std::cerr << "BATASM v4.9.3" << std::endl;
         std::cerr << "BATASM Usage:" << std::endl;
         std::cerr << "============" << std::endl;
         std::cerr << "Interpret script - batasm <script.batasm>" << std::endl;
