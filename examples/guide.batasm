@@ -33,12 +33,10 @@ START ({
 
     // the PRINT command automatically makes a new line
     // when calling
-    // but it also allows the use of \n and \t
-    //
-    // \n makes a new line
-    // \t prints a tab
-    PRINT "new-line:\nThis is a new line."
-    PRINT "tab seperated line:\nTab\tseparated\ttext."
+    PRINT "new-line:"
+    PRINT "This is a new line."
+    PRINT "tab seperated line:"
+    PRINT "Tab   separated   text."
 
     // you can run commands in the defualt terminal
     // on your machine using the RUN command
