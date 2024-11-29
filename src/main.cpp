@@ -176,6 +176,7 @@ void interpretBATASM(const std::string& scriptPath) {
 }
 
 int main(int argc, char* argv[]) {
+    if (argc < 2) {
         std::cerr << "BATASM v4.8.9" << std::endl;
         std::cerr << "BATASM Usage:" << std::endl;
         std::cerr << "============" << std::endl;
