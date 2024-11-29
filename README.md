@@ -22,7 +22,7 @@ See more of what I want to do with this in the [guide.batasm file](/examples/gui
 - the [/dist/ folder](/dist/)
 
 > [!WARNING]
-> Most syntax commands need quotation marks to use (like printing). This breaks the CLI and makes it end the command early when using the syntax in the -C terminal run. You can avoid this by using `\`'s before the main syntax command quotes or just use different types of quotes (like ` backticks or `''` single quotes instead of `""` double qoutes). 
+> Most syntax commands need quotation marks to use (like printing). This breaks the CLI and makes it end the command early when using the syntax in the -C terminal run. You can avoid this by using `\`'s before the main syntax command quotes or just use different types of quotes (like ` `` ` backticks or `''` single quotes instead of `""` double qoutes). 
 
 ## CLI Commands:
 - Interpret script - `batasm <script.batasm>`
